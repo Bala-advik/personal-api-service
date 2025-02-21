@@ -5,6 +5,7 @@ import connectToDatabase from "./database/mongodb.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import errorMiddleware from "./middleware/error.middleware.js";
+import qnaRouter from "./routes/qna.routes.js";
 
 const app = express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/qna", qnaRouter);
 
 app.use(errorMiddleware);
 
