@@ -10,4 +10,5 @@ export const {
   JWT_SECRET,
   JWT_EXPIRY,
   DEV_URL,
+  DEV_DOMAIN,
 } = process.env;
