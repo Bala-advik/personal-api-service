@@ -1,4 +1,6 @@
+import { JWT_SECRET } from "../config/env.js";
 import QnA from "../models/qna.model.js";
+import jwt from "jsonwebtoken";
 
 const validateQnA = (req) => {
   const errors = [];
@@ -19,9 +21,22 @@ const validateQnA = (req) => {
 
 export const getQnA = async (req, res, next) => {
   try {
+    const token = req.cookies.token;
     const queryString = req.query.category;
+    let canProceed = false;
 
-    if (queryString) {
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ message: "Invalid or expired token" });
+      }
+      canProceed = true;
+    });
+
+    if (canProceed && queryString) {
       const categoryQnas = await QnA.find({ category: queryString });
       res.status(200).json(categoryQnas);
     } else {

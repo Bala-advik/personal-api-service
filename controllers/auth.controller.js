@@ -72,12 +72,18 @@ export const signIn = async (req, res, next) => {
       expiresIn: JWT_EXPIRY,
     });
 
+    res.cookie("token", token, {
+      httpOnly: true, // Prevents client-side JS from accessing the cookie
+      secure: process.env.NODE_ENV === "production", // Ensures the cookie is only sent over HTTPS in production
+      sameSite: "strict", // Prevents CSRF attacks
+      maxAge: 3600000, // 1 hour in milliseconds
+    });
+
     res.status(200).json({
       success: true,
       message: "Logged in Successfully",
       data: {
-        token,
-        user,
+        user: { userName: user.username },
       },
     });
   } catch (error) {
@@ -85,4 +91,12 @@ export const signIn = async (req, res, next) => {
   }
 };
 
-export const signOut = (req, res, next) => {};
+export const signOut = (req, res, next) => {
+  // Clear the token cookie
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Use HTTPS in production
+    sameSite: "strict",
+  });
+  res.json({ message: "Logout successful" });
+};

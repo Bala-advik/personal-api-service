@@ -6,24 +6,23 @@ import {
   getQnA,
   updateQnA,
 } from "../controllers/qna.controller.js";
-import authMiddleware from "../middleware/auth.middleware.js";
 import errorMiddleware from "../middleware/error.middleware.js";
 
 const qnaRouter = Router();
 
 // Path api/v1/auth/qna (GET)
-qnaRouter.get("/", authMiddleware, errorMiddleware, getQnA);
+qnaRouter.get("/", errorMiddleware, getQnA);
 
 // Path api/v1/auth/qna/:id (GET)
-qnaRouter.get("/:id", authMiddleware, errorMiddleware, getOneQnA);
+qnaRouter.get("/:id", errorMiddleware, getOneQnA);
 
 // Path api/v1/auth/qna (POST)
-qnaRouter.post("/", authMiddleware, errorMiddleware, createQnA);
+qnaRouter.post("/", errorMiddleware, createQnA);
 
 // Path api/v1/auth/qna/:id (PUT)
-qnaRouter.put("/:id", authMiddleware, errorMiddleware, updateQnA);
+qnaRouter.put("/:id", errorMiddleware, updateQnA);
 
 // Path api/v1/auth/qna/:id (DELETE)
-qnaRouter.delete("/:id", authMiddleware, errorMiddleware, deleteQnA);
+qnaRouter.delete("/:id", errorMiddleware, deleteQnA);
 
 export default qnaRouter;

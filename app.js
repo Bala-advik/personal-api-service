@@ -6,9 +6,16 @@ import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import errorMiddleware from "./middleware/error.middleware.js";
 import qnaRouter from "./routes/qna.routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.DEV_URL, // Allow requests from this origin
+    credentials: true, // Allow cookies to be sent
+  })
+);
 app.use(express.json());
 
 app.use("/api/v1/user", userRouter);
