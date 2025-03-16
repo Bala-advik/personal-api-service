@@ -93,5 +93,12 @@ export const signOut = (req, res, next) => {
 };
 
 export const validateToken = (req, res) => {
-  res.json({ user: req.user });
+  console.info("Validation successful");
+  res.status(200).json({
+    success: true,
+    message: "Validation Successful",
+    data: {
+      user: { userName: req.user.username },
+    },
+  });
 };
