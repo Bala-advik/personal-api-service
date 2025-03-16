@@ -12,8 +12,8 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.DEV_URL, // Allow requests from this origin
-    credentials: true, // Allow cookies to be sent
+    origin: process.env.CONNECT_URL,
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -29,6 +29,6 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, async () => {
-  console.log(`Server running on port http://localhost:${PORT}`);
+  console.log(`Server started running successfully`);
   await connectToDatabase();
 });

@@ -21,23 +21,13 @@ const validateQnA = (req) => {
 
 export const getQnA = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
     const queryString = req.query.category;
-    let canProceed = false;
 
-    if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: "Invalid or expired token" });
-      }
-      canProceed = true;
-    });
-
-    if (canProceed && queryString) {
+    if (queryString) {
       const categoryQnas = await QnA.find({ category: queryString });
+      console.info(
+        `Category ${queryString} retrived with ${categoryQnas.length} items`
+      );
       res.status(200).json(categoryQnas);
     } else {
       res.status(400).json({ message: "Category query parameter is required" });

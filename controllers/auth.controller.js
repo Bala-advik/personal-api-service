@@ -68,16 +68,12 @@ export const signIn = async (req, res, next) => {
       throw error;
     }
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRY,
-    });
+    // TODO Update JWT
+    // const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    //   expiresIn: JWT_EXPIRY,
+    // });
 
-    res.cookie("token", token, {
-      httpOnly: true, // Prevents client-side JS from accessing the cookie
-      secure: process.env.NODE_ENV === "production", // Ensures the cookie is only sent over HTTPS in production
-      sameSite: "none", // Prevents CSRF attacks
-      maxAge: 3600000, // 1 hour in milliseconds
-    });
+    console.info("An User Logged in Successfully");
 
     res.status(200).json({
       success: true,
@@ -92,11 +88,6 @@ export const signIn = async (req, res, next) => {
 };
 
 export const signOut = (req, res, next) => {
-  // Clear the token cookie
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Use HTTPS in production
-    sameSite: "none",
-  });
+  console.info("Logged out successfully");
   res.json({ message: "Logout successful" });
 };
