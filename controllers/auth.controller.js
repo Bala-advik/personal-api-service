@@ -68,10 +68,9 @@ export const signIn = async (req, res, next) => {
       throw error;
     }
 
-    // TODO Update JWT
-    // const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-    //   expiresIn: JWT_EXPIRY,
-    // });
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRY,
+    });
 
     console.info("An User Logged in Successfully");
 
@@ -79,6 +78,7 @@ export const signIn = async (req, res, next) => {
       success: true,
       message: "Logged in Successfully",
       data: {
+        token,
         user: { userName: user.username },
       },
     });
@@ -90,4 +90,8 @@ export const signIn = async (req, res, next) => {
 export const signOut = (req, res, next) => {
   console.info("Logged out successfully");
   res.json({ message: "Logout successful" });
+};
+
+export const validateToken = (req, res) => {
+  res.json({ user: req.user });
 };

@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { signUp, signIn, signOut } from "../controllers/auth.controller.js";
+import {
+  signUp,
+  signIn,
+  signOut,
+  validateToken,
+} from "../controllers/auth.controller.js";
+import authMiddleware from "../middleware/auth.middleware.js";
 
 const authRouter = Router();
 
@@ -11,5 +17,8 @@ authRouter.post("/sign-in", signIn);
 
 // Path api/v1/auth/sign-out (POST)
 authRouter.post("/sign-out", signOut);
+
+// Path api/v1/auth/sign-out (POST)
+authRouter.post("/validate-token", authMiddleware, validateToken);
 
 export default authRouter;
